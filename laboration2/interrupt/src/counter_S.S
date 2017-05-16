@@ -1,3 +1,20 @@
+/*
+Felix kod
+
+shortWait:
+PUSH {lr}
+	r0 = 0
+	r1 = 150
+	waitUntilX:
+		ADD r0, r0, #2
+		SUB r0, r0, #1
+		CMP r1, r2
+		BNE waitUntilX
+POP {pc}
+
+
+*/
+
 
 /*
 ** Variabler här
@@ -6,7 +23,7 @@ format: .asciz	"Value: 0x%x\n"	// Formatsträng som i printf()
 formatDown: .asciz	"ValueDown: %d\n"	// Formatsträng som i printf()
 formatUp: .asciz	"ValueUp: %d\n"	// Formatsträng som i printf()
 tmp:   .word	0		// Variabeln tmp initierad till 0
-gpio_list:	.word	17, 18, 21, 22, 9, 10 // Array of variables.
+gpio_list:	.word	17, 18, 21, 22, 9, 10, 0 // Array of variables. noll terminerad
 gpio_curr_nr:	.word	0
 gpio_addr:	.word	0
 
@@ -105,7 +122,30 @@ loop:
 	BL loop
 next:
 	
-
+/*
+ Felix kod
+//sätt pull-koden
+	LDR r5, =gpio_addr
+	LDR r5, [r5]
+	ADD r2, r5, #148
+	STR 2, [r2] //funkar??? hur var varför när vilka 
+	BL shortWait
+pullUp:
+	//r4 innehåller arr
+	LDR r0, [r4]
+	// r0 gpio_nr
+	CMP r0, 0
+	BEQ awzomeName
+	
+	ADD r2, r5, #152
+	//div gpioNr/32
+	LSL r0, #1 
+	STR r0, [r2]
+	
+	ADD r4, #4
+	BL pullUp
+awzomeName:
+*/
 
 
 
